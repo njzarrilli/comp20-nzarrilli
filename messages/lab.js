@@ -23,7 +23,7 @@ function parseData() {
         converted = JSON.parse(request.responseText);
         for (i = 0; i < converted.length; i++) {
             messagesDiv.innerHTML += "<p>" + converted [i]['content'] + " " + 
-                                        converted [i]['username']  "</p>";
+                                        converted [i]['username'] + "</p>";
         }
 
     }
