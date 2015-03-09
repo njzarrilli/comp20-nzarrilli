@@ -26,7 +26,7 @@ function parseData() {
         }
 
     }
-    else if (request.readyState == 4) && request.status == 304) {
+    else if (request.readyState == 4 && request.status == 304) {
         alrt("No data changed, move along");
     }
     else if (request.readyState == 4 && request.status == 404) {
