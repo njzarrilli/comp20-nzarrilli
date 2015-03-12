@@ -43,7 +43,7 @@
                     alert("Geolocation is not supported by your web browser.  What a shame!");
                 }
             }
-
+            //posts my location coordinates
             function sendLocation(myLat, myLng) 
             {
                 xhr.open('POST', 'https://secret-about-box.herokuapp.com/sendLocation', true);
@@ -55,6 +55,7 @@
                 xhr.onreadystatechange = parseData;
                 xhr.send(params);
             }
+            //parses JSON file of other students' locations
             function parseData()
             {
                 if (xhr.readyState ==4 && xhr.status == 200) {
