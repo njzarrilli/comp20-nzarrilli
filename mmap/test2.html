@@ -105,12 +105,11 @@
             function sendLocation(myLat, myLng)
             {
                 var xhr = new XMLHTTPRequest();
-                val url = "https://secret-about-box.herokuapp.com/sendLocation"
                 myLatString = num.toString(myLat);
                 myLngString = num.toString(myLng);
                 var params = "login=" + myLogin + "&lat=" + myLat + "&lng=" + myLng;
                 
-                xhr.open('POST', url, true);
+                xhr.open('POST', "https://secret-about-box.herokuapp.com/sendLocation", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 
                 xhr.onreadystatechange = parseData();
@@ -125,16 +124,11 @@
                         var localID = converted[i]['login'];
                         var localLat = converted[i]['lat'];
                         var localLng = converted[i]['lng'];
+                        var distance = haversine(myLat, myLng, localLat, localLng);
                     }
-
                 }
             }
-            function haversine (localLat, localLng) {
-                lat1 = myLat;
-                lat2 = localLat;
-                lon1 = myLng;
-                lon2 = localLng;
-
+            function haversine (lat1, lon1, lat2, lon2) {
                 var R = 6371; // km 
                 var x1 = lat2-lat1;
                 var dLat = x1.toRad();  
@@ -144,10 +138,11 @@
                                 Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
                                 Math.sin(dLon/2) * Math.sin(dLon/2);  
                 var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-                var d = R * c; 
+                var d = R * c;
+                // need to: make a place, make the marker, show ids with markers,
+                // show our icon
+                return d;
             }
-
-
         </script>
     </head>
     
