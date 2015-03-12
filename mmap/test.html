@@ -28,13 +28,10 @@
             function init()
             {
                 map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-                console.log("Call before getMyLocation()");
                 getMyLocation();
-                console.log("Call after getMyLocation()");
             }
             
             function getMyLocation() {
-                console.log("In getMyLocation()");
                 if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
                     navigator.geolocation.getCurrentPosition(function(position) {
                         myLat = position.coords.latitude;
@@ -45,7 +42,6 @@
                 else {
                     alert("Geolocation is not supported by your web browser.  What a shame!");
                 }
-                console.log("Leaving getMyLocation()");
             }
 
             function sendLocation(myLat, myLng) 
@@ -87,11 +83,11 @@
                         var localLat = converted[i]['lat'];
                         var localLng = converted[i]['lng'];
                         var distance = haversine(myLat, myLng, localLat, localLng);
-                        var myLatlng = new google.maps.LatLng(localLat,localLng);
+                        var localLatLng = new google.maps.LatLng(localLat,localLng);
                         var marker = new google.maps.Marker({
-                            position: myLatlng,
+                            position: localLatLng,
                             map: map,
-                            title: localID + ": " + distance.toString() + "miles away"
+                            title: localID + ": " + distance.toString() + " miles away"
                         });
                         marker.setMap(map);
                         google.maps.event.addListener(marker, 'click', function() {
@@ -102,8 +98,6 @@
                 }
             }
             function haversine (lat1, lon1, lat2, lon2) {
-                console.log(lat1);
-                console.log(lat2);
                 var R = 3959; // miles
                 var x1 = lat2-lat1;
                 var dLat = x1.toRadians();
