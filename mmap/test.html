@@ -40,7 +40,6 @@
                         myLat = position.coords.latitude;
                         myLng = position.coords.longitude;
                         sendLocation(myLat, myLng);
-                        renderMap();
                     });
                 }
                 else {
@@ -149,7 +148,7 @@
                 }
             }
              function haversine (lat1, lon1, lat2, lon2) {
-                var R = 6371; // km 
+                /*var R = 6371; // km 
                 var x1 = lat2-lat1;
                 var dLat = x1.toRadians();
                 var x2 = lon2-lon1;
@@ -161,7 +160,8 @@
                 var d = R * c;
                 // need to: make a place, make the marker, show ids with markers,
                 // show our icon
-                return d;
+                return d;*/
+                return 0;
             }
             Number.prototype.toRadians = function() {
                 return this * Math.PI / 180;
