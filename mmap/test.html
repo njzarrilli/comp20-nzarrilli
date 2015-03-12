@@ -140,10 +140,11 @@
                             map: map,
                             title: localID + ": " + distance.toString() + "miles away"
                         });
+                        marker.setMap(map);
                         google.maps.event.addListener(marker, 'click', function() {
-                        infowindow.setContent(this.title);
-                        infowindow.open(map, this);
-                    });
+                            infowindow.setContent(this.title);
+                            infowindow.open(map, this);
+                        });
                     }
                 }
             }
