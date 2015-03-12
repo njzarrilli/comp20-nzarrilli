@@ -104,12 +104,13 @@
             }
             function sendLocation(myLat, myLng)
             {
-                var xhr = new XMLHTTPRequest();
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', "https://secret-about-box.herokuapp.com/sendLocation", true);
+
                 myLatString = num.toString(myLat);
                 myLngString = num.toString(myLng);
                 var params = "login=" + myLogin + "&lat=" + myLat + "&lng=" + myLng;
                 
-                xhr.open('POST', "https://secret-about-box.herokuapp.com/sendLocation", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 
                 xhr.onreadystatechange = parseData();
@@ -125,6 +126,11 @@
                         var localLat = converted[i]['lat'];
                         var localLng = converted[i]['lng'];
                         var distance = haversine(myLat, myLng, localLat, localLng);
+                        var myLatlng = new google.maps.LatLng(localLat,localLng);
+                        var marker = new google.maps.Marker({
+                            position: myLatlng,
+                            map: map
+                        });
                     }
                 }
             }
