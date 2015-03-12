@@ -13,7 +13,6 @@
             var myLat = 0;
             var myLng = 0;
             var myLogin = "BobContreras";
-            var request = new XMLHttpRequest();
             var xhr = new XMLHttpRequest();
             var me = new google.maps.LatLng(myLat, myLng);
             var myOptions = {
@@ -69,15 +68,6 @@
                     infowindow.setContent(marker.title);
                     infowindow.open(map, marker);
                 });
-                
-                // Calling Google Places API
-                var request = {
-                    location: me,
-                    radius: '500',
-                    types: ['food']
-                };
-                service = new google.maps.places.PlacesService(map);
-                service.search(request, callback);
             }
             
             // Taken from http://code.google.com/apis/maps/documentation/javascript/places.html
@@ -113,13 +103,13 @@
                 var params = "login=" + myLogin + "&lat=" + myLat + "&lng=" + myLng;
 
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = parseData();
+                xhr.onreadystatechange = parseData;
                 xhr.send(params);
             }
             function parseData()
             {
-                if (request.readyState ==4 && request.status == 200) {
-                    converted = JSON.parse(request.responseText);
+                if (xhr.readyState ==4 && xhr.status == 200) {
+                    converted = JSON.parse(xhr.responseText);
                     for (i = 0; i < converted.length; i++) {
                         var localID = converted[i]['login'];
                         var localLat = converted[i]['lat'];
