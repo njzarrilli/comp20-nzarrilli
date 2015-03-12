@@ -11,6 +11,7 @@
         <script>
             var myLat = 0;
             var myLng = 0;
+            var myLogin = "BobContreras";
             var request = new XMLHttpRequest();
             var me = new google.maps.LatLng(myLat, myLng);
             var myOptions = {
@@ -37,6 +38,7 @@
                     navigator.geolocation.getCurrentPosition(function(position) {
                         myLat = position.coords.latitude;
                         myLng = position.coords.longitude;
+                        sendLocation(myLat, myLng);
                         renderMap();
                     });
                 }
@@ -99,7 +101,53 @@
                     infowindow.setContent(place.name);
                     infowindow.open(map, this);
                 });
-      }
+            }
+            function sendLocation(myLat, myLng)
+            {
+                var xhr = new XMLHTTPRequest();
+                val url = "https://secret-about-box.herokuapp.com/sendLocation"
+                myLatString = num.toString(myLat);
+                myLngString = num.toString(myLng);
+                var params = "login=" + myLogin + "&lat=" + myLat + "&lng=" + myLng;
+                
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                
+                xhr.onreadystatechange = parseData();
+
+                xhr.send(params);
+            }
+            function parseData()
+            {
+                if (request.readyState ==4 && request.status == 200) {
+                    converted = JSON.parse(request.responseText);
+                    for (i = 0; i < converted.length; i++) {
+                        var localID = converted[i]['login'];
+                        var localLat = converted[i]['lat'];
+                        var localLng = converted[i]['lng'];
+                    }
+
+                }
+            }
+            function haversine (localLat, localLng) {
+                lat1 = myLat;
+                lat2 = localLat;
+                lon1 = myLng;
+                lon2 = localLng;
+
+                var R = 6371; // km 
+                var x1 = lat2-lat1;
+                var dLat = x1.toRad();  
+                var x2 = lon2-lon1;
+                var dLon = x2.toRad();  
+                var a = Math.sin(dLat/2) * Math.sin(dLat/2) + 
+                                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+                                Math.sin(dLon/2) * Math.sin(dLon/2);  
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                var d = R * c; 
+            }
+
+
         </script>
     </head>
     
