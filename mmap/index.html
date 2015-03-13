@@ -1,5 +1,6 @@
 <!-- Naomi Zarrilli -->
 <!-- Comp 20 Assignment 2 -->
+<!-- Sources: Ming, stackoverflow links from assignment page, Google Maps API-->
 <!DOCTYPE html>
 
 <html>
@@ -91,6 +92,7 @@
                             title: localID + ": " + distance.toString() + " miles away"
                         });
                         marker.setMap(map);
+                        // Open info window on click of marker
                         google.maps.event.addListener(marker, 'click', function() {
                             infowindow.setContent(this.title);
                             infowindow.open(map, this);
