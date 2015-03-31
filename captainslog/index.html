@@ -14,7 +14,13 @@
                 var message = $("#msg").val();
                 console.log(message);
                 console.log(date);
-                $("#log").prepend("<p>" + date + " - " + message + "</p>");
+                var toprint = "<p>" + date + " - " + message + "</p>";
+                localStorage.setItem(date, message);
+                var test = localStorage.getItem(date);
+                console.log("here " + test);
+                $("#log").prepend(toprint);
+
+                $("#msg").val('');
             }
         });
     </script>
