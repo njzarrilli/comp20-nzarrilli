@@ -10,21 +10,27 @@
             var key = event.which;
             if (key == 13)
             {
-                var date = new Date();
+                var date = Date();
                 var message = $("#msg").val();
                 console.log(message);
                 console.log(date);
                 var toprint = "<p>" + date + " - " + message + "</p>";
-                localStorage.setItem(date, message);
+                $("#log").prepend(toprint);
+                localStorage.setItem(date, toprint);
                 //var test = localStorage.getItem(date);
                 //console.log("here " + test);
                 $("#msg").val('');
             }
         });
         $(document).ready(function() {
+            var outputs = [];
             for (var key in localStorage) {
+                outputs.push(key);
                 console.log(localStorage[key]);
-                $("#log").prepend(localStorage.getItem(localStorage[key]));
+            }
+            outputs.sort();
+            for (var i = 0; i < outputs.length; i++) {
+                $("#log").prepend(localStorage.getItem(outputs[i]));
             }
         });
     </script>
