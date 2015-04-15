@@ -46,8 +46,8 @@
 
             function sendLocation(myLat, myLng) 
             {                
-                //xhr.open('POST', 'http://localhost:4005/sendLocation', true);
-                xhr.open('POST', 'https://shielded-citadel-8560.herokuapp.com/sendLocation', true);
+                xhr.open('POST', 'http://localhost:4005/sendLocation', true);
+               // xhr.open('POST', 'https://shielded-citadel-8560.herokuapp.com/sendLocation', true);
                 var params = "login=" + myLogin + "&lat=" + myLat.toString() + "&lng=" + myLng.toString();
 
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
