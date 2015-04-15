@@ -45,21 +45,27 @@
             }
 
             function sendLocation(myLat, myLng) 
-            {
-                xhr.open('POST', 'https://secret-about-box.herokuapp.com/sendLocation', true);
+            {                
+                //xhr.open('POST', 'http://localhost:4005/sendLocation', true);
+                xhr.open('POST', 'https://shielded-citadel-8560.herokuapp.com/sendLocation', true);
                 var params = "login=" + myLogin + "&lat=" + myLat.toString() + "&lng=" + myLng.toString();
 
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.onreadystatechange = parseData;
                 xhr.send(params);
+                console.log("POSTED");
             }
             function parseData()
             {
-                if (xhr.readyState ==4 && xhr.status == 200) {
+                console.log(xhr.status);
+                if (xhr.responseText) console.log(xhr.responseText);
+                else console.log("NO Response Text")
+                if (xhr.readyState == 4  && xhr.status == 200) {
                     me = new google.maps.LatLng(myLat, myLng);
                 
                     // Update map and go there...
                     map.panTo(me);
+                    console.log("ahere.");
     
                     // Create a marker
                         marker = new google.maps.Marker({
@@ -68,6 +74,7 @@
                         icon: 'kathleen.jpg'
                     });
                     marker.setMap(map);
+                    console.log("here2.");
                     
                     // Open info window on click of marker
                     google.maps.event.addListener(marker, 'click', function() {
@@ -75,7 +82,10 @@
                         infowindow.open(map, this);
                     });
 
+                    console.log("here.");
                     converted = JSON.parse(xhr.responseText);
+                    console.log("there.");
+                    console.log(converted);
                     for (i = 0; i < converted.length; i++) {
                         var localID = converted[i]['login'];
                         var localLat = converted[i]['lat'];
