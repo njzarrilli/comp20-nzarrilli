@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+<title>Assignment 4</title>
+<meta charset="utf-8" />
+</head>
+
+<body>
+    <h1> Introduction </h1>
+    <p> For this assignment, I was to expose security and privacy issues
+        in a classmate's assignments 3 and 4 for Comp 20. </p>
+    <h1> Methadology </h1>
+    <p> I started using a blackbox approach by doing curl requests. I exclusively
+        used curl for POST requests. I used XSS first to disrupt the HTML
+        page rendering, then to add data into the collection that sent an
+        alert as the login rather than valid text. Lastly, I used curl to
+        expose problems with data input into the db collection. </p>
+    <h1> Abstract of Findings </h1>
+    <p> All of the problems from my curl posts came stemmed from putting too much
+        - or any - faith in client input. When making a server or site secure,
+        it is important to consider the worst inputs a client can send your
+        server or site in order to ensure security and privacy. It is important
+        to have strict constraints on what is expected of user input, which
+        prevents harmful or useless client input from being stored. Ultimately,
+        it's about predicting what could go wrong and taking precautionary
+        measures to adjust. </p>
+    <h1> Issues Found </h1>
+    <h2> Issue: XSS </h2>
+    <p> Location: GET API for HTML page </p>
+    <p> Severity: High because it prevents future data entires from being
+    displayed, creating a major inconsistency between the data being stored
+    and the data that the client will believe is stored </p>
+    <p> Description: Data submitted that includes a script that injects html to
+    alter the server's page is not caught. Because of this, it is possible
+    to break the page not only by altering the page itself but also preventing
+    other data inputs from rendering on the page after being posted. </p>
+    </div>
+    <img src="curl_request_html.jpg"/>
+    <p> This was the curl request sent to /sendLocation which injects an HTML
+        style tag into the homepage</p>
+    <img src="changed_html_style.jpg"/>
+    <p> As a result, the background color was changed. While this was a relatively
+        innocuous change, this indicates that this server is susceptible to more
+        harmful scripts that can alter its GET API. </p>
+    </div>
+    <p> Resolution: This issue can be resolved by checking user input and rejecting
+    invalid or scripted input. </p>
+
+    <h2> Issue: Invalid data input</h2>
+    <p> Location: POST API in /sendLocation </p>
+    <p> Severity: Medium because it does not break the server but just does
+        not render a position on a map that has been given bad data instead of
+        issuing an error message and not storing the data in the collection. </p>
+    <p> Description: When sending a curl post request with an invalid lat&lng, the
+        server does not issue an error message but instead saves the invalid
+        location in the database; however, this creates an inconsistency because
+        while that entry will appear in the database and presumably the main
+        GET page, that entry will never render on the map. </p>
+    <img src="invalid_lat_lng.jpg"/>
+    <p> This screenshot shows that after inputting an invalid lat and lng, this
+        entry is erroneously stored in the locations database.
+    <p> Resolution: Simply check in the /sendLocation that the lat and lng entered
+        are valid. If not, set the response to an erorr. </p>
+    <h2> Issue </h2>
+    <p> Issue</p>
+    <p> Location </p>
+    <p> Severity </p>
+    <p> Description </p>
+    <p> Resolution </p>
+
+</body>
+</html>
