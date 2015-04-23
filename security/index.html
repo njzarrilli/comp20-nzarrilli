@@ -31,20 +31,25 @@
     <p> Location: GET API for HTML page </p>
     <p> Severity: High because it prevents future data entires from being
     displayed, creating a major inconsistency between the data being stored
-    and the data that the client will believe is stored </p>
+    and the data that the client will believe is stored. This ultimately breaks
+    the entire GET API for the / page. </p>
     <p> Description: Data submitted that includes a script that injects html to
     alter the server's page is not caught. Because of this, it is possible
     to break the page not only by altering the page itself but also preventing
-    other data inputs from rendering on the page after being posted. </p>
-    </div>
-    <img src="curl_request_html.jpg"/>
+    other data inputs from rendering on the page after being inserted into the
+    database. </p>
+    <div> <img src="curl_request_html.png"/> </div>
     <p> This was the curl request sent to /sendLocation which injects an HTML
         style tag into the homepage</p>
-    <img src="changed_html_style.jpg"/>
-    <p> As a result, the background color was changed. While this was a relatively
-        innocuous change, this indicates that this server is susceptible to more
-        harmful scripts that can alter its GET API. </p>
-    </div>
+    <div> <img src="changed_html_style.png"/> </div>
+    <p> As a result, the background color was changed from white and grey since
+        there was previously no style tag. While this seems like an innocuous injection, 
+        this indicates that this server is susceptible to more harmful scripts that
+        can alter its GET API. </p>
+    <div> <img src="hi_found.png"/> </div>
+    <p> The database holds other elements but now because the homepage
+        has been subjected to XSS, it is no longer representing any additions
+        to the locations database. </p>
     <p> Resolution: This issue can be resolved by checking user input and rejecting
     invalid or scripted input. </p>
 
@@ -58,17 +63,19 @@
         location in the database; however, this creates an inconsistency because
         while that entry will appear in the database and presumably the main
         GET page, that entry will never render on the map. </p>
-    <img src="invalid_lat_lng.jpg"/>
-    <p> This screenshot shows that after inputting an invalid lat and lng, this
+    <div> <img src="invalid_lat_lng.png"/> </div>
+    <div> <img src="found_invalid_lat_lng.png"/> </div>
+    <p> This shows that after inputting an invalid lat and lng, this
         entry is erroneously stored in the locations database.
-    <p> Resolution: Simply check in the /sendLocation that the lat and lng entered
-        are valid. If not, set the response to an erorr. </p>
-    <h2> Issue </h2>
-    <p> Issue</p>
-    <p> Location </p>
-    <p> Severity </p>
-    <p> Description </p>
-    <p> Resolution </p>
+    <p> Resolution: Since the server does check that the lat and lng entered
+        are numbers, the fix is easy. There just needs to be an added case to
+        check that the lat & lng are not only numbers but also within the
+        valid lat and lng ranges before inserting them.</p>
+    <h2> Issue: null database doesn't render an HTML page from GET </h2>
+    <p> Location: GET API </p>
+    <p> Severity: </p>
+    <p> Description: </p>
+    <p> Resolution: </p>
 
 </body>
 </html>
