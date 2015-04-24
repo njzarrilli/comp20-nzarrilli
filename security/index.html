@@ -8,31 +8,35 @@
 </head>
 
 <body>
+    <p> Naomi Zarrilli </p>
+    <p> Comp 20 Assignment 4 </p>
     <h1> Introduction </h1>
     <p> For this assignment, I was to expose security and privacy issues
         in a classmate's assignments 3 and 4 for Comp 20. </p>
     <h1> Methadology </h1>
     <p> I started using a blackbox approach by doing curl requests. I exclusively
-        used curl for POST requests. I used XSS first to disrupt the HTML
-        page rendering, then to add data into the collection that sent an
-        alert as the login rather than valid text. Lastly, I used curl to
-        expose problems with data input into the db collection. </p>
+        used curl for POST requests. I used XSS to inject harmful scripts that
+        would disrupt the server without considering specific flaws in the
+        server code since I hadn't looked at it. Then I viewed the server code
+        for security vulnerabilities and based my next attacks on the
+        vulnerabilities I found. </p>
     <h1> Abstract of Findings </h1>
     <p> All of the problems from my curl posts came stemmed from putting too much
         - or any - faith in client input. When making a server or site secure,
         it is important to consider the worst inputs a client can send your
         server or site in order to ensure security and privacy. It is important
         to have strict constraints on what is expected of user input, which
-        prevents harmful or useless client input from being stored. Ultimately,
+        prevent harmful or invalid client input from being stored. Ultimately,
         it's about predicting what could go wrong and taking precautionary
         measures to adjust. </p>
     <h1> Issues Found </h1>
     <h2> Issue: XSS </h2>
-    <p> Location: GET API for HTML page </p>
+    <p> Location: POST and HTML GET</p>
     <p> Severity: High because it prevents future data entires from being
     displayed, creating a major inconsistency between the data being stored
     and the data that the client will believe is stored. This ultimately breaks
-    the entire GET API for the / page. </p>
+    the entire HTML GET process for the / page and means that a hacker could
+    break the HTML GET and change its function altogether.  </p>
     <p> Description: Data submitted that includes a script that injects html to
     alter the server's page is not caught. Because of this, it is possible
     to break the page not only by altering the page itself but also preventing
@@ -50,10 +54,9 @@
     <p> The database holds other elements but now because the homepage
         has been subjected to XSS, it is no longer representing any additions
         to the locations database. </p>
-    <p> Resolution: This issue can be resolved by checking user input and rejecting
-    invalid or scripted input. </p>
-
-    <h2> Issue: Invalid data input</h2>
+    <p> Resolution: Don't trust user input! Remove the ability for data to be interpreted 
+        as code by changing < to & lt and > to & gt </p>
+    <h2> Issue: Invalid Latitude & Longitude input</h2>
     <p> Location: POST API in /sendLocation </p>
     <p> Severity: Medium because it does not break the server but just does
         not render a position on a map that has been given bad data instead of
@@ -71,11 +74,42 @@
         are numbers, the fix is easy. There just needs to be an added case to
         check that the lat & lng are not only numbers but also within the
         valid lat and lng ranges before inserting them.</p>
-    <h2> Issue: null database doesn't render an HTML page from GET </h2>
-    <p> Location: GET API </p>
-    <p> Severity: </p>
-    <p> Description: </p>
-    <p> Resolution: </p>
-
+    <h2> Issue: Scripted Input </h2>
+    <p> Location: POST and GET </p>
+    <p> Severity: High because a hacker could send data that changed the map
+        page altogether, rendering the map unusable or inaccessible to the client. </p>
+    <p> Description: When sending a curl post with the login set to an alert,
+        this causes the map page to break with multiple alter boxes appearing
+        upon opening the page and accessing the database. </p>
+    <div> <img src="curled_alert.png"/> </div>
+    <p>Here is the curl request sent to the POST location</p>
+    <div> <img src="alert_msg_1.png"/> </div>
+    <p> Here are just two of the several alert boxes that appear upon loading
+        the map page. </p>
+    <div> <img src="alert_msg_2.png"/> </div>
+    <p> Resolution: Don't trust user input! Remove the ability for data to be interpreted 
+        as code by changing < to & lt and > to & gt  </p>
+    <h2> Issue: Empty Login Data</h2>
+    <p> Location: POST API in /sendLocation and GET API when running map </p>
+    <p> Severity: Medium because while it is technically correct on the map page
+        to display an empty login as no login, if a hacker were to input a login
+        as empty and then another as a space and then another as two spaces,
+        all of these logins on the map page would look indistinguiable to the
+        client, which would create confusion and not allow the client to
+        associate a location with a proper login.
+    <p>Description: When sending a curl request with an empty login, there is
+        no error issued which allows an empty login to be stored in the
+        database. Then when the map is rendered, no login is displayed. </p>
+    <div> <img src="empty_login.png"/> </div>
+    <p> Resolution: Because the server already checks that the login is not
+        undefined, there can be another check added to ensure that the login
+        is not an empty string. If so, issue an error message.</p>
+    <h1> Conclusion </h1>
+    <p> Being more prepared for a wide range of bad user inputs -
+        whether it be invalid input or harmful scripts - will protect the server
+        from basic XSS attacks and bad input that could break the mmap. The
+        greatest cost here would be time since these changes are relatively easy
+        to implement.
+         </p>
 </body>
 </html>
